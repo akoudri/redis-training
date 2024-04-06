@@ -2,8 +2,8 @@ version: '3.9'
 
 volumes:
   master-data:
-  slave-1-data:
-  slave-2-data:
+  # slave-1-data:
+  # slave-2-data:
 
 services:
   master:
@@ -15,24 +15,24 @@ services:
     ports:
       - "6379:6379"  
 
-  slave-1:
-    image: redis:latest
-    container_name: redis-slave-1
-    command: redis-server --slaveof redis-master 6379 --appendonly yes
-    volumes:
-      - slave-1-data:/data
-    depends_on:
-    - master
+  # slave-1:
+  #   image: redis:latest
+  #   container_name: redis-slave-1
+  #   command: redis-server --slaveof redis-master 6379 --appendonly yes
+  #   volumes:
+  #     - slave-1-data:/data
+  #   depends_on:
+  #   - master
 
-  sentinel-1:
-    build:
-      context: ./sentinel
-      dockerfile: Dockerfile
-    container_name: redis-sentinel-1
-    environment:
-    - SENTINEL_DOWN_AFTER=5000
-    - SENTINEL_FAILOVER=5000
-    depends_on:
-    - master
-    - slave-1
+  # sentinel-1:
+  #   build:
+  #     context: ./sentinel
+  #     dockerfile: Dockerfile
+  #   container_name: redis-sentinel-1
+  #   environment:
+  #   - SENTINEL_DOWN_AFTER=5000
+  #   - SENTINEL_FAILOVER=5000
+  #   depends_on:
+  #   - master
+  #   - slave-1
 

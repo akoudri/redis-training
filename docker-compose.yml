@@ -1,16 +1,73 @@
-version: "3"
+version: '3.9'
 
 volumes:
-  redis-data:
+  master-data:
+  slave-1-data:
+  slave-2-data:
 
 services:
-  redis:
-    image: redis:alpine
-    container_name: redis
-    command: ["redis-server", "--requirepass", "Jn4haJxjuEDIO"]
-    restart: unless-stopped
+  master:
+    image: redis:latest
+    container_name: redis-master
     volumes:
-      - redis-data:/data:Z
-      - ./redis.conf:/usr/local/etc/redis/redis.conf
-    ports: 
-      - "6379:6379"
+      - master-data:/data
+      - ./redis.conf:/etc/redis/redis.conf
+    ports:
+      - "6379:6379"  
+
+  slave-1:
+    image: redis:latest
+    container_name: redis-slave-1
+    command: redis-server --slaveof redis-master 6379 --appendonly yes
+    volumes:
+      - slave-1-data:/data
+    depends_on:
+    - master
+
+  slave-2:
+    image: redis:latest
+    container_name: redis-slave-2
+    command: redis-server --slaveof redis-master 6379 --appendonly yes
+    volumes:
+      - slave-1-data:/data
+    depends_on:
+    - master
+
+  sentinel-1:
+    build:
+      context: ./sentinel
+      dockerfile: Dockerfile
+    container_name: redis-sentinel-1
+    environment:
+    - SENTINEL_DOWN_AFTER=5000
+    - SENTINEL_FAILOVER=5000
+    depends_on:
+    - master
+    - slave-1
+    - slave-2
+
+  sentinel-2:
+    build:
+      context: ./sentinel
+      dockerfile: Dockerfile
+    container_name: redis-sentinel-2
+    environment:
+    - SENTINEL_DOWN_AFTER=5000
+    - SENTINEL_FAILOVER=5000
+    depends_on:
+    - master
+    - slave-1
+    - slave-2
+
+  sentinel-3:
+    build:
+      context: ./sentinel
+      dockerfile: Dockerfile
+    container_name: redis-sentinel-3
+    environment:
+    - SENTINEL_DOWN_AFTER=5000
+    - SENTINEL_FAILOVER=5000
+    depends_on:
+    - master
+    - slave-1
+    - slave-2

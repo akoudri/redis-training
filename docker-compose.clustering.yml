@@ -79,6 +79,7 @@ services:
     networks:
       - redis-net
 
+  # One time setup, use instead sentinels for continuous monitoring
   redis-cluster-setup:
     image: redis:latest
     container_name: redis-cluster-setup

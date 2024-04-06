@@ -1,7 +1,6 @@
-# Authentication
+# Installation du client
 
-docker exec -ti redis redis-cli
-AUTH Jn4haJxjuEDIO
+sudo apt install redis-tools
 
 # String
 

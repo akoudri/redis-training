@@ -13,3 +13,5 @@ appendfsync everysec
 // always : Synchronise le fichier AOF à chaque écriture. C'est le plus sûr, mais aussi le plus lent.
 // everysec : Synchronise le fichier AOF environ toutes les secondes. C'est un bon compromis entre sécurité et performance.
 // no : Laisse le système d'exploitation décider quand synchroniser le fichier AOF, ce qui est le moins sûr mais le plus rapide.
+
+

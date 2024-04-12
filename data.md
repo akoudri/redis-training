@@ -2,6 +2,16 @@
 
 sudo apt install redis-tools
 
+# Utilisatio du client
+
+## Alternative 1
+
+redis-cli
+
+## Alternative 2
+
+docker exec -ti redis-master redis-cli
+
 # String
 
 ## Exercice 1

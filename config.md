@@ -14,4 +14,16 @@ appendfsync everysec
 // everysec : Synchronise le fichier AOF environ toutes les secondes. C'est un bon compromis entre sécurité et performance.
 // no : Laisse le système d'exploitation décider quand synchroniser le fichier AOF, ce qui est le moins sûr mais le plus rapide.
 
+# Go Programming
+
+sudo apt install golang-go
+
+## Création d'un module
+
+go mod init example.com/hello
+
+## Compilation
+
+go build
+
 

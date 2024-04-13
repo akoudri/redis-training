@@ -86,7 +86,6 @@ services:
       - 6543:5432
     volumes:
       - trainingdata:/var/lib/postgresql/data:Z
-      - ./postgresql.conf:/var/lib/postgresql/data/postgresql.conf
   training-admin:
     image: dpage/pgadmin4:latest
     container_name: pgAdmin

@@ -23,12 +23,7 @@ func GetArticle(id int) (*Article, error) {
 	// Générer la clé de cache pour l'article
 	cacheKey := fmt.Sprintf("article:%d", id)
 
-	// Créer un client Redis
-	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // pas de mot de passe
-		DB:       0,  // utilise la base de données par défaut
-	})
+	client := GetRedisClient()
 
 	// Délai d'expiration pour le cache
 	expiration := 30 * time.Second
@@ -83,12 +78,7 @@ func GetArticle(id int) (*Article, error) {
 
 // Fonction pour récupérer tous les articles
 func GetAllArticles() ([]*Article, error) {
-	// Créer un client Redis
-	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // pas de mot de passe
-		DB:       0,  // utilise la base de données par défaut
-	})
+	client := GetRedisClient()
 
 	// Délai d'expiration pour le cache
 	expiration := 30 * time.Second
@@ -156,12 +146,7 @@ func GetAllArticles() ([]*Article, error) {
 
 // Fonction pour récupérer un article par son ID en utilisant un script Lua
 func GetArticleWithLua(id int) (*Article, error) {
-	// Créer un client Redis
-	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // pas de mot de passe
-		DB:       0,  // utilise la base de données par défaut
-	})
+	client := GetRedisClient()
 
 	// Délai d'expiration pour le cache
 	expiration := 30 * time.Second
@@ -225,4 +210,14 @@ func DisplayArticle(id int) {
 		panic(err)
 	}
 	fmt.Printf("Article: %+v\n", article)
+}
+
+func DisplayArticles() {
+	articles, err := GetAllArticles()
+	if err != nil {
+		panic(err)
+	}
+	for _, article := range articles {
+		fmt.Printf("Article %d: %s, %s\n", article.ID, article.Title, article.Content)
+	}
 }

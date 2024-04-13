@@ -9,7 +9,7 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-// Article représente un article de blog
+// Représente un article de blog
 type Article struct {
 	ID      int    `json:"id"`
 	Title   string `json:"title"`
@@ -24,7 +24,7 @@ func main() {
 		DB:       0,  // utilise la base de données par défaut
 	})
 
-	// Définir un délai d'expiration pour le cache (30 secondes dans cet exemple)
+	// Délai d'expiration pour le cache (30 secondes dans cet exemple)
 	expiration := 30 * time.Second
 
 	// Fonction pour récupérer un article par son ID

@@ -20,7 +20,11 @@ sudo apt install golang-go
 
 ## Création d'un module
 
-go mod init example.com/hello
+go mod init example.com/redis
+
+## Téléchargement des dépendance
+
+go get github.com/go-redis/redis/v8 (adapter avec le nom de la dépendance)
 
 ## Compilation
 

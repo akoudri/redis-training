@@ -79,17 +79,3 @@ func StoreAndIncrementInt() {
 	}
 	fmt.Println("Valeur du compteur:", val)
 }
-
-func DisplayArticles() {
-	article, err := GetArticle(1)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("Article: %+v\n", article)
-
-	article, err = GetArticle(1)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("Article: %+v\n", article)
-}

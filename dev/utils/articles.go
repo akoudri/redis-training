@@ -68,3 +68,17 @@ func GetArticle(id int) (*Article, error) {
 	fmt.Printf("Article %d récupéré depuis la base de données et mis en cache\n", id)
 	return &article, nil
 }
+
+func DisplayArticle(id int) {
+	article, err := GetArticle(id)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Article: %+v\n", article)
+
+	article, err = GetArticle(1)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Article: %+v\n", article)
+}

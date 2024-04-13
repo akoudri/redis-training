@@ -3,6 +3,7 @@ package main
 import "akfc.training.com/redis/utils"
 
 func main() {
-	utils.DisplayArticles()
-	// utils.ManageCache()
+	//utils.StoreString()
+	utils.StoreAndIncrementInt()
+	//utils.DisplayArticles()
 }

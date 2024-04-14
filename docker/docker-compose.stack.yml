@@ -2,6 +2,7 @@ version: '3.9'
 
 services:
   master:
+    image: akfc.com/redis:1.0
     build:
       context: ./redis-stack
       dockerfile: Dockerfile

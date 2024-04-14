@@ -79,3 +79,12 @@ func StoreAndIncrementInt() {
 	}
 	fmt.Println("Valeur du compteur:", val)
 }
+
+func GetData(client *redis.Client, key string) (string, error) {
+	// Fonction à tester qui interagit avec Redis
+	value, err := client.Get(context.Background(), key).Result()
+	if err != nil {
+		return "", err
+	}
+	return value, nil
+}

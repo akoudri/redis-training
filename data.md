@@ -104,6 +104,23 @@ LPUSH maListeToDo "Lire un livre"
 LRANGE maListeToDo 0 -1
 LREM maListeToDo 0 "Faire du sport"
 
+# Données binaires
+
+## Exercice 1
+
+SETBIT presence:2024-04-15 5 1 // à répéter pour chaque employé et pour chaque jour
+BITCOUNT presence:2024-04-15
+BITOP AND presence:2024-04-all presence:2024-04-01 presence:2024-04-02 ... presence:2024-04-30
+BITCOUNT presence:2024-04-all
+
+
+## Exercice 2
+
+BITFIELD game:scores SET u10 #3 500
+BITFIELD game:scores GET u10 #3
+// Pour la dernière question, passer par un script ou l'utilisation d'API en Go.
+
+
 # Transactions
 
 ## Exercice 1

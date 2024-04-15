@@ -6,7 +6,7 @@ sudo apt install redis-tools
 
 ## Alternative 1
 
-redis-cli
+redis-cli -h localhost -p 6379
 
 ## Alternative 2
 

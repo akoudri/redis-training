@@ -23,6 +23,8 @@ services:
     command: redis-server --slaveof redis-master 6379 --appendonly yes
     volumes:
       - slave-1-data:/data
+    ports:
+      - "6380:6379" 
     depends_on:
     - master
 
@@ -32,8 +34,11 @@ services:
     command: redis-server --slaveof redis-master 6379 --appendonly yes
     volumes:
       - slave-1-data:/data
+    ports:
+      - "6381:6379" 
     depends_on:
     - master
+    
 
   sentinel-1:
     build:

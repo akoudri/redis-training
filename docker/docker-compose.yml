@@ -29,18 +29,6 @@ services:
       - 6543:5432
     volumes:
       - trainingdata:/var/lib/postgresql/data:Z
-      
-  training-admin:
-    image: dpage/pgadmin4:latest
-    container_name: pgAdmin
-    restart: unless-stopped
-    ports:
-      - 80:80
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=ali.koudri@gmail.com
-      - PGADMIN_DEFAULT_PASSWORD=training
-    volumes:
-      - pgadmindata:/var/lib/pgadmin4/storage  
 
   # slave-1:
   #   image: redis:latest
@@ -62,4 +50,3 @@ services:
   #   depends_on:
   #   - master
   #   - slave-1
-

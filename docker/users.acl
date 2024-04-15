@@ -1,0 +1,3 @@
+user default on nopass ~* +@all
+user alice on >alicepasswd +@all ~* -@dangerous
+user bob on >bobpasswd +get +set ~keys:*

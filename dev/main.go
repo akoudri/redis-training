@@ -10,5 +10,6 @@ func main() {
 	// utils.StoreAndIncrementInt()
 	// utils.DisplayArticle(1)
 	// utils.SimulateLatency()
-	utils.ExecuteFlux()
+	// utils.ExecuteFlux()
+	utils.ExecuteFluxWithSubscription()
 }

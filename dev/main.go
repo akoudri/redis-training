@@ -8,5 +8,7 @@ func main() {
 	// utils.StoreList()
 	// utils.StoreHash()
 	// utils.StoreAndIncrementInt()
-	utils.DisplayArticle(1)
+	// utils.DisplayArticle(1)
+	// utils.SimulateLatency()
+	utils.ExecuteFlux()
 }

@@ -147,7 +147,7 @@ GET combined
 
 ## Exercice 2
 
-local threshold = tonumber(ARGV[1])
+local threshold = tonumber(KEYS[1])
 local product_keys = redis.call('KEYS', 'produit:*')
 local matching_products = {}
 

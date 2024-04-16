@@ -3,6 +3,7 @@ package utils
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/go-redis/redis/v8"
 	_ "github.com/lib/pq"
@@ -24,7 +25,9 @@ func GetRedisClient() *redis.Client {
 func StoreString() {
 	client := GetRedisClient()
 
-	err := client.Set(context.Background(), "greeting", "Hello", 0).Err()
+	expiration := 30 * time.Second
+
+	err := client.Set(context.Background(), "greeting2", "Hello", expiration).Err()
 	if err != nil {
 		panic(err)
 	}

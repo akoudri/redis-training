@@ -3,7 +3,7 @@ package main
 import "akfc.training.com/redis/utils"
 
 func main() {
-	// utils.StoreString()
+	utils.StoreString()
 	// utils.StoreSet()
 	// utils.StoreList()
 	// utils.StoreHash()
@@ -11,5 +11,5 @@ func main() {
 	// utils.DisplayArticle(1)
 	// utils.SimulateLatency()
 	// utils.ExecuteFlux()
-	utils.ExecuteFluxWithSubscription()
+	// utils.ExecuteFluxWithSubscription()
 }

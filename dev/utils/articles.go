@@ -156,49 +156,73 @@ func GetArticleWithLua(id int) (*Article, error) {
 
 	// Définir le script Lua
 	script := redis.NewScript(`
-        local cacheKey = KEYS[1]
-        local id = ARGV[1]
-        local expiration = ARGV[2]
-
-        local article = redis.call("GET", cacheKey)
-        if article then
-            return article
-        end
-
-        -- L'article n'est pas dans le cache, le récupérer depuis la base de données
-        -- (remplacez cette partie par votre logique de récupération de données)
-        local articleData = {
-            id = id,
-            title = "Article " .. id,
-            content = "Contenu de l'article " .. id
-        }
-        article = cjson.encode(articleData)
-
-        redis.call("SET", cacheKey, article, "EX", expiration)
-
+    local cacheKey = KEYS[1]
+    local article = redis.call("GET", cacheKey)
+    
+    if article then
         return article
-    `)
+    else
+        return nil
+    end
+`)
 
 	// Exécuter le script Lua
-	val, err := script.Run(context.Background(), client, []string{cacheKey}, id, expiration.Seconds()).Result()
+	val, err := script.Run(context.Background(), client, []string{cacheKey}).Result()
 	if err != nil {
 		return nil, err
 	}
 
-	// Désérialiser le résultat du script Lua
 	var article Article
-	if err := json.Unmarshal([]byte(val.(string)), &article); err != nil {
+
+	if val != nil {
+		// L'article est trouvé dans le cache, le désérialiser et le renvoyer
+		err := json.Unmarshal([]byte(val.(string)), &article)
+		if err != nil {
+			return nil, err
+		}
+		fmt.Printf("Article %d récupéré depuis le cache\n", id)
+		return &article, nil
+	}
+
+	// L'article n'est pas dans le cache, le récupérer depuis la base de données
+	// Connexion à la base de données PostgreSQL
+	connStr := "host=localhost port=5432 user=training password=training dbname=training sslmode=disable"
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
+
+	// Requête SQL pour récupérer l'article par son ID
+	query := "SELECT id, title, content FROM articles WHERE id = $1"
+	row := db.QueryRow(query, id)
+
+	// Scan du résultat dans un objet Article
+	err = row.Scan(&article.ID, &article.Title, &article.Content)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, fmt.Errorf("Article %d non trouvé", id)
+		}
 		return nil, err
 	}
 
-	fmt.Printf("Article %d récupéré depuis le cache ou la base de données\n", id)
+	// Sérialiser l'article et le stocker dans le cache
+	json, err := json.Marshal(article)
+	if err != nil {
+		return nil, err
+	}
+	if err := client.Set(context.Background(), cacheKey, json, expiration).Err(); err != nil {
+		return nil, err
+	}
+
+	fmt.Printf("Article %d récupéré depuis la base de données et mis en cache\n", id)
 	return &article, nil
 }
 
 func DisplayArticle(id int) {
 	// Récupérer un article par son ID
-	article, err := GetArticle(id)
-	// article, err := GetArticleWithLua(id)
+	// article, err := GetArticle(id)
+	article, err := GetArticleWithLua(id)
 	if err != nil {
 		panic(err)
 	}

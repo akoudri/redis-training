@@ -47,7 +47,7 @@ func ExecuteFluxWithSubscription() {
 
 	// Nom du flux Redis et du Consumer Group
 	streamName := "mystream"
-	groupName := "mygroup"
+	groupName := "mygroup2"
 	consumerName := "myconsumer"
 
 	// Créer le flux s'il n'existe pas déjà
@@ -73,7 +73,7 @@ func writeToStream(ctx context.Context, client *redis.Client, streamName string,
 
 	for {
 		// Générer une valeur unique
-		value := fmt.Sprintf("value %d", counter)
+		value := fmt.Sprintf("message %d", counter)
 
 		// Ajouter la valeur au flux Redis
 		err := client.XAdd(ctx, &redis.XAddArgs{
@@ -121,7 +121,7 @@ func writeToStreamWithTimeout(client *redis.Client, streamName string) {
 // Fonction pour lire des données depuis le flux Redis
 func readFromStream(ctx context.Context, client *redis.Client, streamName string, interval int) {
 	// Groupe de consommateurs et nom du consommateur
-	groupName := "mygroup"
+	groupName := "mygroup3"
 	consumerName := "myconsumer"
 
 	// Créer le groupe de consommateurs s'il n'existe pas
